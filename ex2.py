@@ -41,12 +41,12 @@ def quicksort(arr, low, high):
         quicksort(arr, pivot_index+1, high)
 
 def partition_best(arr, low, high):     #Chooses middle element of array as pivot
-    pivot = arr[(low  + high) // 2]      #Floor division to ensure result is an integer
+    pivot = arr[(low + high) // 2]      #Floor division to ensure result is an integer
     left = low + 1
     right = high
     done = False
 
-    arr[low], arr[(low  + high) // 2] = arr[(low  + high) // 2], arr[low]
+    arr[low], arr[(low + high) // 2] = arr[(low + high) // 2], arr[low]
 
     while not done:
         while left <= right and arr[left] <= pivot:
@@ -82,7 +82,6 @@ for list_length in list_lengths:
 
     numbers_reverse = numbers[::-1]
     numbers_shuffle = random.sample(numbers, n)
-    random.shuffle(numbers_shuffle)
 
     #Best case for bubble sort: Array is already sorted
     #Best case for quick sort: Array is partitionined in half every time
@@ -93,7 +92,7 @@ for list_length in list_lengths:
 
     bubble_avg_tm = timeit.timeit(lambda: bubble_sort(numbers_shuffle), number=100)
     bubble_avg_times.append(bubble_avg_tm / 10)
-    quicksort_avg_tm = timeit.timeit(lambda: quicksort(numbers_shuffle, 0, n-1), number=100)
+    quicksort_avg_tm = timeit.timeit(lambda: quicksort_best(numbers_shuffle, 0, n-1), number=100)
     quicksort_avg_times.append(quicksort_avg_tm / 10)
 
     #Worst case for bubble sort: Array is sorted in reverse
