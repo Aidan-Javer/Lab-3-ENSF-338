@@ -72,15 +72,17 @@ if __name__ == "__main__":
         list1 = []
         list2 = []
         random_number = random.choice(numbers)
-        list1.append(measure_time(linear_search, numbers_shuffle, random_number))
-        list2.append(measure_time(binary_qsort_search, numbers_shuffle, random_number))
+        for i in range(10):
+            list1.append(measure_time(linear_search, numbers_shuffle, random_number))
+        for i in range(10):
+            list2.append(measure_time(binary_qsort_search, numbers_shuffle, random_number))
         avg_l = sum(list1) / len(list1)
         avg_b = sum(list2) / len(list2)
         average_linear.append(avg_l)
         average_binary_qsort.append(avg_b)
 
 
-## Part 3 ##
+## Part 3 ## This does over-write part 2, however, the graph required uses the fix listlengths given in the question
     linear_avg = []
     binary_qsort_avg = []
     average_linear = []
@@ -93,8 +95,10 @@ if __name__ == "__main__":
         list1 = []
         list2 = []
         random_number = random.choice(numbers)
-        list1.append(measure_time(linear_search, numbers_shuffle, random_number))
-        list2.append(measure_time(binary_qsort_search, numbers_shuffle, random_number))
+        for i in range(10):
+            list1.append(measure_time(linear_search, numbers_shuffle, random_number))
+        for i in range(10):
+            list2.append(measure_time(binary_qsort_search, numbers_shuffle, random_number))
         avg_l = sum(list1) / len(list1)
         avg_b = sum(list2) / len(list2)
         average_linear.append(avg_l)
