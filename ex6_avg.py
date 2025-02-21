@@ -105,11 +105,10 @@ if __name__ == "__main__":
     plt.scatter(listlengths, average_linear, label='Linear Search')
     plt.plot(listlengths, [slope * x + intercept for x in listlengths], 'r', label='Linear Fit')
 
-    # Fit a line to the logarithm of list lengths for binary search times
-    log_lengths = np.log(listlengths)
-    slope, intercept = np.polyfit(log_lengths, average_binary_qsort, 1)
+    log_linear = listlengths * np.log(listlengths)  
+    slope, intercept = np.polyfit(log_linear, average_binary_qsort, 1)
     plt.scatter(listlengths, average_binary_qsort, label='Quicksort/Binary Search')
-    plt.plot(listlengths, [slope * np.log(x) + intercept for x in listlengths], 'g', label='Log Fit')
+    plt.plot(listlengths, slope * (listlengths * np.log(listlengths)) + intercept, 'g', label='Log Linear Fit')
 
     plt.xlabel('List Length')
     plt.ylabel('Average Time (seconds)')
