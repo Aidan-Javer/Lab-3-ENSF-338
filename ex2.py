@@ -1,7 +1,6 @@
 import random
 import timeit
 from matplotlib import pyplot as plt
-#import numpy as np
 
 import sys
 sys.setrecursionlimit(2000)
