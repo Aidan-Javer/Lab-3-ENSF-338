@@ -86,21 +86,21 @@ for list_length in list_lengths:
     #Best case for bubble sort: Array is already sorted
     #Best case for quick sort: Array is partitionined in half every time
     bubble_best_tm = timeit.timeit(lambda: bubble_sort(numbers), number=100)
-    bubble_best_times.append(bubble_best_tm / 10)
+    bubble_best_times.append(bubble_best_tm / 100)
     quicksort_best_tm = timeit.timeit(lambda: quicksort_best(numbers, 0, n-1), number=100)
-    quicksort_best_times.append(quicksort_best_tm / 10)
+    quicksort_best_times.append(quicksort_best_tm / 100)
 
     bubble_avg_tm = timeit.timeit(lambda: bubble_sort(numbers_shuffle), number=100)
-    bubble_avg_times.append(bubble_avg_tm / 10)
+    bubble_avg_times.append(bubble_avg_tm / 100)
     quicksort_avg_tm = timeit.timeit(lambda: quicksort_best(numbers_shuffle, 0, n-1), number=100)
-    quicksort_avg_times.append(quicksort_avg_tm / 10)
+    quicksort_avg_times.append(quicksort_avg_tm / 100)
 
     #Worst case for bubble sort: Array is sorted in reverse
     #Worst case for quick sort: Each partition results in a subarray of size 1
     bubble_worst_tm = timeit.timeit(lambda: bubble_sort(numbers_reverse), number=100)
-    bubble_worst_times.append(bubble_worst_tm / 10)
+    bubble_worst_times.append(bubble_worst_tm / 100)
     quicksort_worst_tm = timeit.timeit(lambda: quicksort(numbers_reverse, 0, n-1), number=100)
-    quicksort_worst_times.append(quicksort_worst_tm / 10)
+    quicksort_worst_times.append(quicksort_worst_tm / 100)
 
 plt.figure(figsize=(9, 7))
 plt.scatter(range(0, 105, 5), bubble_best_times, color='r', label="Bubble Sort")
