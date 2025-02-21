@@ -46,4 +46,14 @@ for list_length in list_lengths:
 
     random.shuffle(numbers)
 
-    insertion_tim = timeit.timeit(lambda: insertion_sort(numbers), number=100)
+    insertion_tm = timeit.timeit(lambda: insertion_sort(numbers), number=100)
+    insertion_times.append(insertion_tm / 100)
+    binary_insertion_tm = timeit.timeit(lambda: binary_insertion_sort(numbers), number=100)
+    binary_insertion_times.append(binary_insertion_tm / 100)
+
+plt.figure(figsize=(9, 7))
+plt.scatter(range(0, 105, 5), insertion_times, color='r', label="Insertion Sort")
+plt.scatter(range(0, 105, 5), binary_insertion_times, color='b', label="Binary Insertion Sort")
+plt.title("Average Case Scenarios for Insertion and Binary Insertion Sort")
+plt.legend()
+plt.savefig("ex5.png")
