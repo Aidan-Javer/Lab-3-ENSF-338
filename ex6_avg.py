@@ -1,5 +1,6 @@
 import random
 import timeit
+import numpy as np
 from matplotlib import pyplot as plt
 
 ## Part 1 ##
@@ -53,25 +54,26 @@ def binary_qsort_search(arr, key):
 
 ## Part 2 ##
 def measure_time(search_func, array, key, iterations=100):
-    t = timeit.timeit(lambda: search_func(array, key), number=iterations)
+    t = timeit.timeit(lambda: search_func(array.copy(), key), number=iterations)
     return t / iterations
 
 linear_avg = []
 binary_qsort_avg = []
 
-if __name__ in "__main__":
+if __name__ == "__main__":
     average_linear = []
     average_binary_qsort = []
-    listlengths = [x for x in range(0, 505, 5)]
+    listlengths = [x for x in range(5, 505, 5)]
+
     for listlength in listlengths:
         numbers = [x for x in range(listlength)]
+        n = len(numbers)
+        numbers_shuffle = random.sample(numbers, n)
         list1 = []
         list2 = []
-        random_number = random.randint(numbers)
-        for i in range(1000):
-            list1.append(measure_time(linear_search, numbers, random_number))
-        for j in range(1000):
-            list2.append(measure_time(binary_qsort_search, numbers, random_number))
+        random_number = random.choice(numbers)
+        list1.append(measure_time(linear_search, numbers_shuffle, random_number))
+        list2.append(measure_time(binary_qsort_search, numbers_shuffle, random_number))
         avg_l = sum(list1) / len(list1)
         avg_b = sum(list2) / len(list2)
         average_linear.append(avg_l)
@@ -79,18 +81,35 @@ if __name__ in "__main__":
 
 
 ## Part 3 ##
+    linear_avg = []
+    binary_qsort_avg = []
+    average_linear = []
+    average_binary_qsort = []
+    listlengths = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
+    for listlength in listlengths:
+        numbers = [x for x in range(listlength)]
+        n = len(numbers)
+        numbers_shuffle = random.sample(numbers, n)
+        list1 = []
+        list2 = []
+        random_number = random.choice(numbers)
+        list1.append(measure_time(linear_search, numbers_shuffle, random_number))
+        list2.append(measure_time(binary_qsort_search, numbers_shuffle, random_number))
+        avg_l = sum(list1) / len(list1)
+        avg_b = sum(list2) / len(list2)
+        average_linear.append(avg_l)
+        average_binary_qsort.append(avg_b)    
 
 ## Part 4 ##
     slope, intercept = np.polyfit(listlengths, average_linear, 1)
     plt.scatter(listlengths, average_linear, label='Linear Search')
-    linevalues = [slope * x + intercept for x in listlengths]
-    plt.plot(listlengths, linevalues, 'r')
+    plt.plot(listlengths, [slope * x + intercept for x in listlengths], 'r', label='Linear Fit')
 
-    log_lengths = np.log(listlengths) 
-    slope, intercept = np.polyfit(log_lengths, average_binary, 1)
-    plt.scatter(listlengths, average_binary, label='Binary Search')
-    linevalues = [slope * np.log(x) + intercept for x in listlengths]
-    plt.plot(listlengths, linevalues, 'g')
+    # Fit a line to the logarithm of list lengths for binary search times
+    log_lengths = np.log(listlengths)
+    slope, intercept = np.polyfit(log_lengths, average_binary_qsort, 1)
+    plt.scatter(listlengths, average_binary_qsort, label='Quicksort/Binary Search')
+    plt.plot(listlengths, [slope * np.log(x) + intercept for x in listlengths], 'g', label='Log Fit')
 
     plt.xlabel('List Length')
     plt.ylabel('Average Time (seconds)')
@@ -99,5 +118,5 @@ if __name__ in "__main__":
 """
 The linear search algorithm is significantly faster than the combination of qsort and binary search
 because the average complexity of linear search is O(n) whereas the combination of qsort and binary sort is 
-O(n(log(n))^2).
+O(nlog(n) + log(n)) = O(nlog(n)).
 """
