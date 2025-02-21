@@ -1,3 +1,7 @@
+import random
+import timeit
+from matplotlib import pyplot as plt
+
 def insertion_sort(arr):
     for i in range(1, len(arr)):
         key = arr[i]
@@ -31,3 +35,15 @@ def binary_insertion_sort(arr):
         j = binary_search(arr, val, 0, i-1)
         arr = arr[:j] + [val] + arr[j:i] + arr[i+1:]
     return arr
+
+list_lengths = [x for x in range(0, 105, 5)]
+insertion_times = []
+binary_insertion_times = []
+
+for list_length in list_lengths:
+    numbers = [x for x in range(list_length)]
+    #n = len(numbers)
+
+    random.shuffle(numbers)
+
+    insertion_tim = timeit.timeit(lambda: insertion_sort(numbers), number=100)
