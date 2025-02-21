@@ -57,3 +57,8 @@ plt.scatter(range(0, 105, 5), binary_insertion_times, color='b', label="Binary I
 plt.title("Average Case Scenarios for Insertion and Binary Insertion Sort")
 plt.legend()
 plt.savefig("ex5.png")
+
+"""
+Question 4:
+Binary insertion sort is faster than traditional insertion sort. This is because traditional insertion sort uses linear search to find the insertion position for each element, wherease binary insertion sort uses binary search to find the insertion position for each element. The binary search reduces the complexity of the number of comparisons from O(N) to O(logN). Binary search can be applied since the search occurs in the sorted subarray so it is possible to use the divide and conquer methodology of binary search.
+"""
