@@ -1,7 +1,6 @@
 import random
 import timeit
 from matplotlib import pyplot as plt
-import numpy as np
 
 import sys
 sys.setrecursionlimit(2000)
@@ -67,58 +66,84 @@ def quicksort_best(arr, low, high):
         quicksort_best(arr, pivot_index+1, high)
 
 list_lengths = [x for x in range(0, 105, 5)]
-bubble_best_times = []
-bubble_avg_times = []
-bubble_worst_times = []
+bubble_best_avg = []
+bubble_avg_avg = []
+bubble_worst_avg =[]
 
-quicksort_best_times = []
-quicksort_avg_times = []
-quicksort_worst_times = []
-
+quicksort_best_avg = []
+quicksort_avg_avg = []
+quicksort_worst_avg =[]
 
 for list_length in list_lengths:
     numbers = [x for x in range(list_length)]
     n = len(numbers)
 
-    numbers_reverse = numbers[::-1]
-    numbers_shuffle = random.sample(numbers, n)
+    bubble_best_times = []
+    bubble_avg_times = []
+    bubble_worst_times = []
 
-    #Best case for bubble sort: Array is already sorted
-    #Best case for quick sort: Array is partitionined in half every time
-    bubble_best_tm = timeit.timeit(lambda: bubble_sort(numbers), number=100)
-    bubble_best_times.append(bubble_best_tm / 100)
-    quicksort_best_tm = timeit.timeit(lambda: quicksort_best(numbers, 0, n-1), number=100)
-    quicksort_best_times.append(quicksort_best_tm / 100)
+    quicksort_best_times = []
+    quicksort_avg_times = []
+    quicksort_worst_times = []
 
-    bubble_avg_tm = timeit.timeit(lambda: bubble_sort(numbers_shuffle), number=100)
-    bubble_avg_times.append(bubble_avg_tm / 100)
-    quicksort_avg_tm = timeit.timeit(lambda: quicksort_best(numbers_shuffle, 0, n-1), number=100)
-    quicksort_avg_times.append(quicksort_avg_tm / 100)
+    for i in range(100):
+        numbers_reverse = numbers[::-1]
+        numbers_shuffle = random.sample(numbers, n)
 
-    #Worst case for bubble sort: Array is sorted in reverse
-    #Worst case for quick sort: Each partition results in a subarray of size 1
-    bubble_worst_tm = timeit.timeit(lambda: bubble_sort(numbers_reverse), number=100)
-    bubble_worst_times.append(bubble_worst_tm / 100)
-    quicksort_worst_tm = timeit.timeit(lambda: quicksort(numbers_reverse, 0, n-1), number=100)
-    quicksort_worst_times.append(quicksort_worst_tm / 100)
+        numbers_copy = numbers[:]
+        numbers_reverse_copy = numbers_reverse[:]
+        numbers_shuffle_copy = numbers_shuffle[:]
+
+        #Best case for bubble sort: Array is already sorted
+        #Best case for quick sort: Array is partitionined in half every time
+        bubble_best_tm = timeit.timeit(lambda: bubble_sort(numbers), number=1)
+        bubble_best_times.append(bubble_best_tm)
+        quicksort_best_tm = timeit.timeit(lambda: quicksort_best(numbers_copy, 0, n-1), number=1)
+        quicksort_best_times.append(quicksort_best_tm)
+
+        bubble_avg_tm = timeit.timeit(lambda: bubble_sort(numbers_shuffle), number=1)
+        bubble_avg_times.append(bubble_avg_tm)
+        quicksort_avg_tm = timeit.timeit(lambda: quicksort(numbers_shuffle_copy, 0, n-1), number=1)
+        quicksort_avg_times.append(quicksort_avg_tm)
+
+        #Worst case for bubble sort: Array is sorted in reverse
+        #Worst case for quick sort: Each partition results in a subarray of size 1
+        bubble_worst_tm = timeit.timeit(lambda: bubble_sort(numbers_reverse), number=1)
+        bubble_worst_times.append(bubble_worst_tm)
+        quicksort_worst_tm = timeit.timeit(lambda: quicksort(numbers_reverse_copy, 0, n-1), number=1)
+        quicksort_worst_times.append(quicksort_worst_tm)
+    
+    bubble_best_avg_tm = sum(bubble_best_times) / len(bubble_best_times)
+    bubble_best_avg.append(bubble_best_avg_tm)
+    bubble_avg_avg_tm = sum(bubble_avg_times) / len(bubble_avg_times)
+    bubble_avg_avg.append(bubble_avg_avg_tm)
+    bubble_worst_avg_tm = sum(bubble_worst_times) / len(bubble_worst_times)
+    bubble_worst_avg.append(bubble_worst_avg_tm)
+
+    quicksort_best_avg_tm = sum(quicksort_best_times) / len(quicksort_best_times)
+    quicksort_best_avg.append(quicksort_best_avg_tm)
+    quicksort_avg_avg_tm = sum(quicksort_avg_times) / len(quicksort_avg_times)
+    quicksort_avg_avg.append(quicksort_avg_avg_tm)
+    quicksort_worst_avg_tm = sum(quicksort_worst_times) / len(quicksort_worst_times)
+    quicksort_worst_avg.append(quicksort_worst_avg_tm)
 
 plt.figure(figsize=(9, 7))
-plt.scatter(range(0, 105, 5), bubble_best_times, color='r', label="Bubble Sort")
-plt.scatter(range(0, 105, 5), quicksort_best_times, color='b', label="Quick Sort")
+plt.scatter(range(0, 105, 5), bubble_best_avg, color='r', label="Bubble Sort")
+plt.scatter(range(0, 105, 5), quicksort_best_avg, color='b', label="Quick Sort")
 plt.title("Best Case Scenarios for Bubble and Quick Sort")
 plt.legend()
 plt.savefig("ex2_best.png")
 
 plt.figure(figsize=(9, 7))
-plt.scatter(range(0, 105, 5), bubble_avg_times, color='r', label="Bubble Sort")
-plt.scatter(range(0, 105, 5), quicksort_avg_times, color='b', label="Quick Sort")
+plt.scatter(range(0, 105, 5), bubble_avg_avg, color='r', label="Bubble Sort")
+plt.scatter(range(0, 105, 5), quicksort_avg_avg, color='b', label="Quick Sort")
 plt.title("Average Case Scenarios for Bubble and Quick Sort")
 plt.legend()
 plt.savefig("ex2_avg.png")
 
 plt.figure(figsize=(9, 7))
-plt.scatter(range(0, 105, 5), bubble_worst_times, color='r', label="Bubble Sort")
-plt.scatter(range(0, 105, 5), quicksort_worst_times, color='b', label="Quick Sort")
+plt.scatter(range(0, 105, 5), bubble_worst_avg, color='r', label="Bubble Sort")
+plt.scatter(range(0, 105, 5), quicksort_worst_avg, color='b', label="Quick Sort")
 plt.title("Worst Case Scenarios for Bubble and Quick Sort")
 plt.legend()
 plt.savefig("ex2_worst.png")
